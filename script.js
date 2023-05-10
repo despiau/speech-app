@@ -132,3 +132,23 @@ function getTimeStamp() {
 function addZeroPadding(number) {
   return number < 10 ? `0${number}` : `${number}`;
 }
+
+// Get references to additional elements
+const liveTranscriptElement = document.querySelector('.live-transcript p'); 
+const noteInput = document.querySelector('.note-input input');
+const addNoteButton = document.querySelector('.note-input button');
+
+// Update the live transcript
+function updateLiveTranscript(transcript) {
+  liveTranscriptElement.innerText = transcript;
+}
+
+// Add an event listener to add notes
+addNoteButton.addEventListener('click', () => {
+  const noteText = noteInput.value.trim();
+  if (noteText) {
+    addMessage(noteText, 'note');
+    scrollChatboxToBottom();
+    noteInput.value = '';
+  }
+});
