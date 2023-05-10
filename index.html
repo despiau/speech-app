@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Speech Chat App</title>
+  <title>Meeting Transcription App</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,10 +11,17 @@
 </head>
 <body>
   <header>
-    <h1>Speech Chat</h1>
+    <h1>Meeting Transcription App</h1>
   </header>
   <div class="chatbox"></div>
-
+  <div class="live-transcript">
+    <h3>Live Transcript</h3>
+    <p></p>
+  </div>
+  <div class="note-input">
+    <input type="text" placeholder="Enter note...">
+    <button>Add Note</button>
+  </div>
   <div class="footer">
     <button class="save-btn">Save Transcript</button>
     <button class="mic-btn">🎤</button>
