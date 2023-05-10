@@ -43,7 +43,7 @@ function handleRecognitionResult(event) {
     const message = formatMessage(transcript);
 
     if (message) {
-      addMessage(message, 'me');
+      addMessage(message, 'Speaker');
       scrollChatboxToBottom();
     }
 
@@ -65,7 +65,7 @@ function formatMessage(message) {
   // Capitalize the first letter of each sentence
   for (let i = 0; i < uniqueWords.length; i++) {
     if (i === 0 || uniqueWords[i - 1].endsWith('.')) {
-      uniqueWords[i] = uniqueWords[i][0].toUpperCase() + uniqueWords[i].substr(1);
+      uniqueWords[i] = uniqueWords[i][0].toUpperCase() + uniqueWords[i].substring(1);
     }
   }
 
@@ -78,7 +78,7 @@ function addMessage(message, speaker) {
   if (message !== previousMessage) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message');
-    messageElement.classList.add(speaker);
+    messageElement.classList.add(speaker.toLowerCase());
 
     const messageBubbleElement = document.createElement('div');
     messageBubbleElement.classList.add('message-bubble');
@@ -100,7 +100,9 @@ function addMessage(message, speaker) {
 }
 
 function scrollChatboxToBottom() {
-  chatbox.scrollTop = chatbox.scrollHeight;
+  setTimeout(() => {
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }, 100);
 }
 
 function saveTranscript() {
@@ -110,7 +112,7 @@ function saveTranscript() {
   messages.forEach((message) => {
     const messageTextElement = message.querySelector('p');
     const timestampElement = message.querySelector('.timestamp');
-    const speakerElement = message.classList.contains('me') ? 'me' : 'speaker';
+    const speakerElement = message.classList.contains('speaker') ? 'Speaker' : (message.classList.contains('note') ? 'Note' : 'Unknown');
 
     const messageText = messageTextElement.innerText;
     const timestamp = timestampElement.innerText;
@@ -144,11 +146,11 @@ function addZeroPadding(number) {
   return number < 10 ? `0${number}` : `${number}`;
 }
 
-// Add an event listener to add notes
+// Add event listener to add notes
 addNoteButton.addEventListener('click', () => {
   const noteText = noteInput.value.trim();
   if (noteText) {
-    addMessage(noteText, 'note');
+    addMessage(noteText, 'Note');
     scrollChatboxToBottom();
     noteInput.value = '';
   }
