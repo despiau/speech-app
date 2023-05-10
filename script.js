@@ -2,6 +2,9 @@ const chatbox = document.querySelector('.chatbox');
 const saveButton = document.querySelector('.save-btn');
 const micButton = document.querySelector('.mic-btn');
 const recognition = new window.webkitSpeechRecognition();
+const liveTranscriptElement = document.querySelector('.live-transcript p'); 
+const noteInput = document.querySelector('.note-input input');
+const addNoteButton = document.querySelector('.note-input button');
 
 let isRecording = false;
 let currentTranscript = '';
@@ -33,6 +36,9 @@ function handleRecognitionResult(event) {
   // Get the transcript from the last result
   const transcript = lastResult[0].transcript.trim();
 
+  // Update live transcript
+  updateLiveTranscript(transcript);
+
   if (lastResult.isFinal) {
     const message = formatMessage(transcript);
 
@@ -40,9 +46,15 @@ function handleRecognitionResult(event) {
       addMessage(message, 'me');
       scrollChatboxToBottom();
     }
+
+    // Clear live transcript
+    updateLiveTranscript('');
   }
 }
 
+function updateLiveTranscript(transcript) {
+  liveTranscriptElement.innerText = transcript;
+}
 
 function formatMessage(message) {
   const words = message.split(' ');
@@ -87,7 +99,6 @@ function addMessage(message, speaker) {
   }
 }
 
-
 function scrollChatboxToBottom() {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
@@ -131,16 +142,6 @@ function getTimeStamp() {
 
 function addZeroPadding(number) {
   return number < 10 ? `0${number}` : `${number}`;
-}
-
-// Get references to additional elements
-const liveTranscriptElement = document.querySelector('.live-transcript p'); 
-const noteInput = document.querySelector('.note-input input');
-const addNoteButton = document.querySelector('.note-input button');
-
-// Update the live transcript
-function updateLiveTranscript(transcript) {
-  liveTranscriptElement.innerText = transcript;
 }
 
 // Add an event listener to add notes
